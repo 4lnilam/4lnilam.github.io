@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Enes Atak — Yazılım Geliştirici</title>
+<meta name="description" content="Enes Atak — Bilgisayar Programcılığı öğrencisi ve yazılım geliştirici. Python ve web projeleri geliştiriyor, yapay zekâ alanında ilerliyor.">
+<meta name="author" content="Enes Atak">
+<meta name="theme-color" content="#05060b">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Enes Atak — Yazılım Geliştirici">
+<meta property="og:description" content="Python ve web projeleri geliştiren, yapay zekâ alanında ilerleyen yazılım geliştirici.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%239a8cff'/%3E%3Cstop offset='1' stop-color='%2356e0ff'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='%2305060b'/%3E%3Cg stroke='url(%23g)' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M18 20 46 32 18 44M18 20v24M46 32 18 32'/%3E%3C/g%3E%3Cg fill='url(%23g)'%3E%3Ccircle cx='18' cy='20' r='5'/%3E%3Ccircle cx='18' cy='44' r='5'/%3E%3Ccircle cx='18' cy='32' r='4'/%3E%3Ccircle cx='46' cy='32' r='6'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#05060b; --ink:#eceef7; --text:#c3c7da; --dim:#8a90ab; --faint:#4e546d;
+  --line:rgba(160,170,235,.13); --line2:rgba(160,170,235,.28);
+  --panel:rgba(13,15,26,.72);
+  --v:#9a8cff; --b:#6aa8ff; --c:#56e0ff; --mint:#7ff0c8; --amber:#ffb86b;
+  --grad:linear-gradient(100deg,#9a8cff 0%,#6aa8ff 52%,#56e0ff 100%);
+  --sans:"Manrope","Segoe UI",system-ui,-apple-system,Roboto,sans-serif;
+  --mono:"JetBrains Mono","Cascadia Code",Consolas,"SF Mono",Menlo,monospace;
+  --nav-h:64px; --status-h:30px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav-h) + 16px)}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:17px;line-height:1.7;overflow-x:hidden;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+a{color:inherit;text-decoration:none}
+button,input{font:inherit;color:inherit}
+::selection{background:rgba(154,140,255,.35);color:#fff}
+:focus-visible{outline:2px solid var(--c);outline-offset:3px;border-radius:6px}
+.g{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* ---------- arka plan ---------- */
+.aurora{position:fixed;inset:-20%;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(38% 34% at 78% 22%,rgba(124,108,255,.20),transparent 70%),
+    radial-gradient(34% 32% at 14% 84%,rgba(86,224,255,.12),transparent 70%),
+    radial-gradient(30% 26% at 60% 70%,rgba(106,168,255,.08),transparent 70%);
+  transform:translate3d(0,calc(var(--sp,0) * -6%),0) rotate(calc(var(--sp,0) * 14deg))}
+#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 12%,#000 88%,transparent 100%);
+          mask-image:linear-gradient(to bottom,transparent 0,#000 12%,#000 88%,transparent 100%)}
+.veil{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:linear-gradient(90deg,rgba(5,6,11,.92) 0,rgba(5,6,11,.74) 36%,rgba(5,6,11,.12) 72%,transparent 100%)}
+@media (max-width:820px){.veil{background:linear-gradient(rgba(5,6,11,.70),rgba(5,6,11,.70))}}
+
+/* ---------- üst gezinme ---------- */
+.nav{position:fixed;top:0;left:0;right:0;height:var(--nav-h);z-index:30;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 28px;
+  background:linear-gradient(rgba(5,6,11,.86),rgba(5,6,11,.55));backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:11px;font-weight:700;color:var(--ink);letter-spacing:-.01em;white-space:nowrap}
+.orb{width:26px;height:26px;border-radius:50%;position:relative;flex:none;
+  background:radial-gradient(circle at 32% 30%,#fff 0,#b9afff 18%,#6aa8ff 55%,#1b2a66 100%);box-shadow:0 0 22px rgba(124,108,255,.65)}
+.orb::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:1px solid rgba(154,140,255,.45);animation:ring 3.2s ease-out infinite}
+@keyframes ring{0%{transform:scale(.8);opacity:.9}100%{transform:scale(1.7);opacity:0}}
+.links{position:relative;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding:5px;border:1px solid var(--line);border-radius:40px;background:rgba(255,255,255,.025)}
+.links::-webkit-scrollbar{display:none}
+.links a{font-size:13.5px;font-weight:600;color:var(--dim);padding:7px 15px;border-radius:30px;white-space:nowrap;transition:color .2s,background .25s}
+.links a:hover{color:var(--ink)}
+.links a.active{color:#05060b;background:var(--grad)}
+#progress{position:fixed;top:0;left:0;height:2px;width:100%;z-index:31;transform-origin:0 50%;transform:scaleX(0);background:var(--grad)}
+@media (max-width:720px){.nav{padding:0 14px}.brand span{display:none}.links{gap:2px}.links a{padding:6px 10px;font-size:12.5px}}
+
+/* ---------- eğitim durum çubuğu ---------- */
+.status{position:fixed;left:0;right:0;bottom:0;height:var(--status-h);z-index:30;display:flex;align-items:center;gap:22px;padding:0 18px;
+  background:rgba(5,6,11,.9);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid var(--line);font-family:var(--mono);font-size:11.5px;color:var(--dim);white-space:nowrap}
+.status b{color:var(--ink);font-weight:500}
+.status .run{display:flex;align-items:center;gap:8px;color:var(--mint)}
+.status .run i{width:6px;height:6px;border-radius:50%;background:var(--mint);box-shadow:0 0 10px var(--mint)}
+.status .sp{flex:1}
+.status .bar{width:120px;height:4px;border-radius:4px;background:rgba(255,255,255,.08);overflow:hidden}
+.status .bar i{display:block;height:100%;width:100%;background:var(--grad);transform-origin:0 50%;transform:scaleX(0)}
+@media (max-width:760px){.status{gap:14px;padding:0 12px}.status .opt{display:none}.status .bar{width:64px}}
+
+/* ---------- genel ---------- */
+main{position:relative;z-index:1;padding-bottom:var(--status-h)}
+section{max-width:1160px;margin:0 auto;padding:130px 28px}
+.head{margin-bottom:52px;max-width:720px}
+.kicker{display:inline-flex;align-items:center;gap:12px;font-family:var(--mono);font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin-bottom:18px}
+.kicker::before{content:"";width:34px;height:1px;background:var(--grad)}
+.kicker b{font-weight:500;color:var(--c)}
+h2{font-size:clamp(34px,5.4vw,58px);line-height:1.06;letter-spacing:-.035em;font-weight:700;color:var(--ink)}
+.lead{color:var(--dim);margin-top:16px;font-size:18px}
+
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1);transition-delay:var(--d,0s)}
+.reveal.in{opacity:1;transform:none}
+#index .reveal{opacity:1;transform:none;transition:none;animation:rise .9s cubic-bezier(.2,.7,.2,1) both;animation-delay:var(--d,0s)}
+@keyframes rise{from{opacity:0;transform:translateY(28px)}}
+@keyframes blink{50%{opacity:0}}
+
+.card{position:relative;border-radius:20px;border:1px solid transparent;
+  background:linear-gradient(var(--card,rgba(12,14,24,.82)),var(--card,rgba(12,14,24,.82))) padding-box,linear-gradient(140deg,rgba(160,170,235,.26),rgba(160,170,235,.07) 45%,rgba(160,170,235,.16)) border-box;
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:0 30px 80px -40px rgba(0,0,0,.9)}
+
+/* sözdizimi */
+.t-k{color:#b3a6ff} .t-s{color:#86ecc9} .t-n{color:#ffb86b} .t-f{color:#6fd0ff}
+.t-c{color:#59607c;font-style:italic} .t-p{color:#7d849f} .t-i{color:#d3d7e8}
+
+/* ---------- hero ---------- */
+#index{min-height:100vh;min-height:100svh;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding-top:calc(var(--nav-h) + 50px);padding-bottom:100px;position:relative}
+.avail{display:inline-flex;align-items:center;gap:10px;font-size:13.5px;font-weight:600;color:var(--ink);padding:7px 15px 7px 12px;border-radius:30px;border:1px solid rgba(127,240,200,.28);background:rgba(127,240,200,.06);margin-bottom:30px}
+.avail i{width:8px;height:8px;border-radius:50%;background:var(--mint);animation:pulse 2.2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(127,240,200,.6)}70%{box-shadow:0 0 0 10px rgba(127,240,200,0)}100%{box-shadow:0 0 0 0 rgba(127,240,200,0)}}
+h1{font-size:clamp(58px,11.2vw,150px);line-height:.95;letter-spacing:-.055em;font-weight:800;color:var(--ink);margin-left:-.04em}
+h1 .g{padding-right:.06em}
+.role{font-family:var(--mono);font-size:clamp(16px,2.3vw,23px);color:var(--ink);margin-top:28px;min-height:1.7em;display:flex;align-items:center;gap:.6em}
+.role .gt{font-weight:700}
+.role .caret{display:inline-block;width:.55em;height:1.05em;background:var(--c);margin-left:2px;border-radius:2px;animation:blink 1s steps(1) infinite;box-shadow:0 0 16px rgba(86,224,255,.7)}
+.tagline{max-width:33em;color:var(--text);font-size:clamp(17px,1.5vw,19.5px);margin-top:18px}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:38px}
+.btn{display:inline-flex;align-items:center;gap:9px;font-size:15px;font-weight:700;padding:14px 24px;border-radius:14px;border:1px solid var(--line2);background:rgba(255,255,255,.035);color:var(--ink);cursor:pointer;
+  transition:transform .25s cubic-bezier(.2,.7,.2,1),border-color .25s,box-shadow .25s,background .25s}
+.btn:hover{transform:translateY(-2px);border-color:rgba(154,140,255,.7);background:rgba(154,140,255,.08)}
+.btn.primary{background:var(--grad);color:#05060b;border-color:transparent}
+.btn.primary:hover{box-shadow:0 14px 44px -12px rgba(106,168,255,.8)}
+.btn svg{width:17px;height:17px}
+.scrollhint{position:absolute;left:28px;bottom:42px;font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);display:flex;align-items:center;gap:12px}
+.scrollhint i{width:1px;height:40px;background:linear-gradient(var(--c),transparent);animation:drip 2s ease-in-out infinite;transform-origin:top}
+@keyframes drip{0%{transform:scaleY(0)}60%{transform:scaleY(1);opacity:1}100%{transform:scaleY(1);opacity:0}}
+@media (max-height:780px){.scrollhint{display:none}}
+
+/* ---------- hakkımda ---------- */
+.about{display:grid;grid-template-columns:1fr 1.02fr;gap:60px;align-items:start}
+.about p{font-size:18px;margin-bottom:20px}
+.about p strong{color:var(--ink);font-weight:700}
+.editor{position:sticky;top:calc(var(--nav-h) + 26px);overflow:hidden}
+.editor .bar{display:flex;align-items:center;gap:7px;padding:13px 16px;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:12px;color:var(--dim)}
+.editor .bar i{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.14)}
+.editor .bar i:nth-child(3){margin-right:10px}
+.editor .bar em{margin-left:auto;font-style:normal;color:var(--faint)}
+#typed{font-family:var(--mono);font-size:13.5px;line-height:1.8;padding:22px 24px 26px;min-height:455px;white-space:pre-wrap;word-break:break-word}
+#typed .tc{display:inline-block;width:8px;height:1.1em;background:var(--c);vertical-align:-.2em;border-radius:1px;animation:blink 1s steps(1) infinite}
+@media (max-width:920px){.about{grid-template-columns:1fr;gap:34px}.editor{position:static}#typed{min-height:0}}
+
+/* ---------- yetenekler ---------- */
+.skills{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.skill{padding:24px;transition:transform .3s cubic-bezier(.2,.7,.2,1)}
+.skill:hover{transform:translateY(-4px)}
+.skill h3{font-family:var(--mono);font-size:12.5px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin-bottom:16px;display:flex;align-items:center;gap:9px}
+.skill h3::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--grad)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-size:14px;font-weight:600;padding:6px 13px;border-radius:30px;border:1px solid var(--line);color:var(--ink);background:rgba(255,255,255,.03);transition:border-color .2s,background .2s,color .2s}
+.chip:hover{border-color:rgba(154,140,255,.6);background:rgba(154,140,255,.1)}
+.roadmap{grid-column:1/-1;padding:28px;--card:rgba(13,14,28,.86);
+  background:linear-gradient(var(--card),var(--card)) padding-box,var(--grad) border-box;display:grid;grid-template-columns:minmax(220px,1fr) 2fr;gap:28px;align-items:center}
+.roadmap h3{font-size:24px;letter-spacing:-.02em;color:var(--ink);font-weight:700;line-height:1.2}
+.roadmap p{color:var(--dim);font-size:15.5px;margin-top:8px}
+.roadmap .chip{border-style:dashed;border-color:rgba(154,140,255,.45);background:rgba(154,140,255,.06)}
+@media (max-width:980px){.skills{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:640px){.skills{grid-template-columns:1fr}.roadmap{grid-template-columns:1fr;gap:18px}}
+
+/* ---------- projeler ---------- */
+.projects{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.proj{display:flex;flex-direction:column;padding:28px;min-height:330px;overflow:hidden;transition:transform .35s cubic-bezier(.2,.7,.2,1)}
+.proj::before{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(420px circle at var(--mx,50%) var(--my,0%),rgba(124,108,255,.18),transparent 60%);opacity:0;transition:opacity .35s;pointer-events:none}
+.proj:hover{transform:translateY(-6px)}
+.proj:hover::before{opacity:1}
+.proj .meta{display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:12px;color:var(--faint);margin-bottom:26px}
+.proj .badge{border:1px solid var(--line2);border-radius:20px;padding:2px 11px;color:var(--dim)}
+.proj h3{font-size:24px;line-height:1.2;letter-spacing:-.025em;color:var(--ink);font-weight:700}
+.proj .lang{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12.5px;color:var(--dim);margin:10px 0 14px}
+.proj .lang i{width:9px;height:9px;border-radius:50%}
+.proj p{color:var(--dim);font-size:15.5px;line-height:1.65;flex:1}
+.proj .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:22px}
+.proj .tags span{font-family:var(--mono);font-size:11.5px;padding:3px 9px;border-radius:6px;background:rgba(106,168,255,.1);color:#9cc4ff}
+.proj .go{font-size:14.5px;font-weight:700;margin-top:22px;color:var(--ink);display:inline-flex;gap:8px;align-items:center}
+.proj .go span{transition:transform .25s}
+.proj:hover .go span{transform:translateX(5px)}
+.proj .go em{font-style:normal;font-weight:500;color:var(--faint);font-family:var(--mono);font-size:12.5px}
+.more{margin-top:30px;font-weight:700;font-size:15px}
+.more a{border-bottom:1px solid rgba(106,168,255,.4);padding-bottom:2px;transition:border-color .2s}
+.more a:hover{border-color:var(--c)}
+@media (max-width:1020px){.projects{grid-template-columns:1fr 1fr}}
+@media (max-width:680px){.projects{grid-template-columns:1fr}.proj{min-height:0}}
+
+/* ---------- eğitim ---------- */
+.log{position:relative;padding-left:44px;max-width:780px}
+.log::before,.log::after{content:"";position:absolute;left:10px;top:10px;bottom:10px;width:2px;border-radius:2px}
+.log::before{background:var(--line)}
+.log::after{background:linear-gradient(var(--v),var(--c));transform-origin:top;transform:scaleY(var(--p,0))}
+.step{position:relative;padding-bottom:50px}
+.step:last-child{padding-bottom:0}
+.step::before{content:"";position:absolute;left:-41px;top:7px;width:16px;height:16px;border-radius:50%;background:var(--bg);border:2px solid var(--faint);z-index:1;transition:border-color .5s,background .5s,box-shadow .5s}
+.step.in::before{border-color:var(--b);background:var(--b);box-shadow:0 0 0 6px rgba(106,168,255,.14)}
+.step.next.in::before{background:var(--bg);border-color:var(--c);animation:pulse2 2.2s infinite}
+@keyframes pulse2{0%{box-shadow:0 0 0 0 rgba(86,224,255,.55)}70%{box-shadow:0 0 0 12px rgba(86,224,255,0)}100%{box-shadow:0 0 0 0 rgba(86,224,255,0)}}
+.step .when{font-family:var(--mono);font-size:12.5px;color:var(--dim);display:flex;gap:12px;align-items:center}
+.step .when b{font-weight:500;color:var(--amber)}
+.step .when em{font-style:normal;color:var(--c);border:1px solid rgba(86,224,255,.35);border-radius:20px;padding:0 9px}
+.step h3{font-size:23px;letter-spacing:-.02em;color:var(--ink);font-weight:700;margin:6px 0 2px}
+.step .place{font-family:var(--mono);font-size:13px;color:#9cc4ff}
+.step p{color:var(--dim);margin-top:10px;font-size:16.5px}
+
+/* ---------- iletişim ---------- */
+#iletisim{padding-bottom:150px}
+.chat{max-width:760px;padding:30px}
+.msg{display:flex;gap:14px;align-items:flex-start}
+.msg .orb{margin-top:4px}
+.msg p{color:var(--text);font-size:17.5px}
+.mail{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin:22px 0 6px 40px}
+.mail a{font-size:clamp(21px,4.6vw,36px);font-weight:800;letter-spacing:-.035em;line-height:1.25;word-break:break-all}
+.copy{font-family:var(--mono);font-size:12px;padding:7px 13px;border-radius:30px;border:1px solid var(--line2);background:transparent;color:var(--dim);cursor:pointer;transition:color .2s,border-color .2s}
+.copy:hover{color:var(--ink);border-color:var(--c)}
+.social{display:flex;flex-wrap:wrap;gap:10px 22px;margin:8px 0 26px 40px;font-size:15px;font-weight:600}
+.social a{display:inline-flex;align-items:center;gap:8px;color:var(--ink);transition:color .2s}
+.social a:hover{color:var(--c)}
+.social a small{color:var(--faint);font-family:var(--mono);font-weight:400;font-size:13px}
+.social svg{width:17px;height:17px}
+.ask{display:flex;align-items:center;gap:10px;padding:8px 8px 8px 20px;border-radius:18px;border:1px solid var(--line2);background:rgba(255,255,255,.035);transition:border-color .25s,box-shadow .25s}
+.ask:focus-within{border-color:rgba(154,140,255,.8);box-shadow:0 0 0 4px rgba(154,140,255,.12)}
+.ask input{flex:1;min-width:0;background:none;border:0;outline:0;font-size:16px;color:var(--ink);padding:10px 0}
+.ask input::placeholder{color:var(--faint)}
+.ask button{flex:none;width:42px;height:42px;border-radius:13px;border:0;background:var(--grad);color:#05060b;cursor:pointer;display:grid;place-items:center;transition:transform .2s,box-shadow .2s}
+.ask button:hover{transform:translateY(-2px);box-shadow:0 10px 30px -8px rgba(106,168,255,.8)}
+.ask button svg{width:19px;height:19px}
+.hint{font-family:var(--mono);font-size:11.5px;color:var(--faint);margin-top:12px;padding-left:4px}
+@media (max-width:560px){.chat{padding:22px}.mail,.social{margin-left:0}}
+footer{position:relative;z-index:1;text-align:center;font-family:var(--mono);font-size:12px;color:var(--faint);padding:0 20px calc(var(--status-h) + 36px)}
+
+@media (max-width:640px){body{font-size:16px}section{padding:92px 20px}.head{margin-bottom:38px}.scrollhint{left:20px}}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .reveal,#index .reveal{opacity:1;transform:none;transition:none;animation:none}
+  .orb::after,.avail i,.role .caret,#typed .tc,.scrollhint i,.step.next.in::before{animation:none}
+}
+</style>
+</head>
+<body>
+
+<div class="aurora" aria-hidden="true"></div>
+<canvas id="bg" aria-hidden="true"></canvas>
+<div class="veil" aria-hidden="true"></div>
+<div id="progress" aria-hidden="true"></div>
+
+<header class="nav">
+  <a class="brand" href="#index" aria-label="Enes Atak — başa dön"><i class="orb"></i><span>Enes Atak</span></a>
+  <nav class="links" aria-label="Bölümler">
+    <a href="#hakkimda">Hakkımda</a>
+    <a href="#yetenekler">Yetenekler</a>
+    <a href="#projeler">Projeler</a>
+    <a href="#egitim">Eğitim</a>
+    <a href="#iletisim">İletişim</a>
+  </nav>
+</header>
+
+<main>
+  <section id="index" data-name="giriş">
+    <div class="avail reveal"><i></i><span id="status"></span></div>
+    <h1 class="reveal" style="--d:.08s">Enes <span class="g">Atak</span></h1>
+    <div class="role reveal" style="--d:.2s"><span class="gt g">›</span><span id="role"></span><span class="caret" aria-hidden="true"></span></div>
+    <p class="tagline reveal" style="--d:.3s" id="tagline"></p>
+    <div class="cta reveal" style="--d:.4s">
+      <a class="btn primary" href="#projeler">Projelerimi gör</a>
+      <a class="btn" href="#iletisim">İletişime geç</a>
+      <a class="btn" id="gh-btn" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.36-3.88-1.36-.52-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.16 1.18a10.9 10.9 0 0 1 5.76 0c2.19-1.49 3.15-1.18 3.15-1.18.63 1.58.24 2.75.12 3.04.74.81 1.18 1.83 1.18 3.09 0 4.41-2.69 5.38-5.25 5.67.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>GitHub</a>
+    </div>
+    <div class="scrollhint" aria-hidden="true"><i></i>kaydır — model öğrenmeye devam ediyor</div>
+  </section>
+
+  <section id="hakkimda" data-name="hakkımda">
+    <div class="head reveal">
+      <span class="kicker"><b>01</b> hakkımda</span>
+      <h2>Öğrenen bir geliştirici, <span class="g">öğrenen makinelere</span> doğru.</h2>
+    </div>
+    <div class="about">
+      <div id="about-text"></div>
+      <div class="card editor reveal" style="--d:.1s">
+        <div class="bar"><i></i><i></i><i></i>enes.py<em>kaydırdıkça yazılır</em></div>
+        <pre id="typed" aria-label="Enes hakkında kod parçası"></pre>
+      </div>
+    </div>
+  </section>
+
+  <section id="yetenekler" data-name="yetenekler">
+    <div class="head reveal">
+      <span class="kicker"><b>02</b> yetenekler</span>
+      <h2>Bugün kullandıklarım, yarın için öğrendiklerim.</h2>
+    </div>
+    <div class="skills" id="skills"></div>
+  </section>
+
+  <section id="projeler" data-name="projeler">
+    <div class="head reveal">
+      <span class="kicker"><b>03</b> projeler</span>
+      <h2>Fikirden çalışan ürüne.</h2>
+      <p class="lead">Üzerinde çalıştığım ve GitHub'da paylaştığım projeler.</p>
+    </div>
+    <div class="projects" id="projects"></div>
+    <p class="more reveal"><a id="gh-more" target="_blank" rel="noopener"></a></p>
+  </section>
+
+  <section id="egitim" data-name="eğitim">
+    <div class="head reveal">
+      <span class="kicker"><b>04</b> eğitim &amp; yolculuk</span>
+      <h2>Her adım bir öncekinin üzerine.</h2>
+    </div>
+    <div class="log" id="log"></div>
+  </section>
+
+  <section id="iletisim" data-name="iletişim">
+    <div class="head reveal">
+      <span class="kicker"><b>05</b> iletişim</span>
+      <h2>Bir sonraki projeyi <span class="g">birlikte</span> eğitelim.</h2>
+    </div>
+    <div class="card chat reveal">
+      <div class="msg"><i class="orb"></i><p>Merhaba! Staj, iş fırsatı, ortak bir proje ya da sadece selam için bana yazabilirsin. En kısa sürede dönüş yaparım.</p></div>
+      <div class="mail"><a id="mail" class="g" href="#"></a><button class="copy" id="copy" type="button">kopyala</button></div>
+      <div class="social" id="social"></div>
+      <form class="ask" id="ask">
+        <input id="askin" type="text" placeholder="Enes'e bir mesaj yaz…" aria-label="Mesajın" autocomplete="off">
+        <button type="submit" aria-label="E-posta ile gönder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+      </form>
+      <div class="hint">Gönder'e bastığında mesajın e-posta uygulamanda açılır.</div>
+    </div>
+  </section>
+</main>
+
+<footer>© <span id="year"></span> Enes Atak · her epoch biraz daha iyi</footer>
+
+<div class="status" aria-hidden="true">
+  <span class="run"><i></i>enes-atak/v1</span>
+  <span>epoch <b id="ep">1</b>/6 · <span id="sec">giriş</span></span>
+  <span class="sp"></span>
+  <span class="opt">loss <b id="loss">2.303</b></span>
+  <span>acc <b id="acc">0.0%</b></span>
+  <span class="bar"><i id="pbar"></i></span>
+</div>
+
+<script>
+/* =====================================================================
+   DÜZENLE: Sitedeki bütün kişisel içerik bu nesneden gelir.
+   ===================================================================== */
+const PROFILE = {
+  name: "Enes Atak",
+  roles: ["Yazılım Geliştirici", "Yapay Zekâ Yolcusu", "Python & Web Geliştirici", "Bilgisayar Programcılığı Öğrencisi"],
+  tagline: "Python ve modern web teknolojileriyle çalışan projeler geliştiriyorum. Hedefim, bu temeli yapay zekâ ve makine öğrenmesiyle birleştirmek.",
+  status: "Staj ve junior fırsatlara açığım",
+  about: [
+    "Merhaba! Ben <strong>Enes Atak</strong>. Bilgisayar Programcılığı öğrencisiyim ve öğrendiklerimi gerçek, çalışan projelere dönüştürerek ilerliyorum.",
+    "<strong>Python</strong> ile başladım: Flask ile web uygulamaları, discord.py ile botlar yazdım. Şimdilerde <strong>Next.js, TypeScript ve Supabase</strong> ile harita tabanlı bir takip uygulaması geliştiriyorum.",
+    "Bundan sonraki yönüm <strong>yapay zekâ</strong>. Yazılım geliştirme temelimi makine öğrenmesiyle birleştirip, yalnızca çalışan değil, öğrenen ürünler ortaya koymak istiyorum."
+  ],
+  code: {
+    bolum: "Bilgisayar Programcılığı",
+    diller: ["Python", "TypeScript", "SQL"],
+    hedef: "Yapay Zekâ & Makine Öğrenmesi"
+  },
+  email: "atakenes163@gmail.com",
+  github: "https://github.com/4lnilam",
+  githubHandle: "@4lnilam",
+  skills: [
+    { key: "Diller",  items: ["Python", "TypeScript", "JavaScript", "SQL", "HTML", "CSS"] },
+    { key: "Web",     items: ["Next.js", "React", "Flask", "Tailwind CSS"] },
+    { key: "Veri",    items: ["Supabase", "PostgreSQL", "SQLite"] },
+    { key: "Araçlar", items: ["Git", "GitHub", "discord.py", "MapLibre GL"] }
+  ],
+  roadmap: {
+    title: "Yol haritam: yapay zekâ",
+    text: "Şu an öğrenmeye odaklandığım ve projelerime taşımak istediğim alanlar.",
+    items: ["Makine Öğrenmesi", "NumPy", "Pandas", "scikit-learn", "PyTorch", "LLM API'leri", "Prompt Engineering"]
+  },
+  projects: [
+    { name: "Metin Oyuncak Takip", year: "2026", lang: "TypeScript", color: "#3178c6", status: "geliştiriliyor",
+      desc: "Dükkânları harita üzerinde işaretleyip sipariş durumlarını izleyen web uygulaması. Kullanıcı girişi ve roller, il–ilçe sınırları, harita pinleri ve sipariş zamanı gelen dükkânlar için uyarılar içeriyor.",
+      tags: ["Next.js", "Supabase", "MapLibre", "Tailwind"], note: "özel depo" },
+    { name: "To-Do-List", year: "2026", lang: "Python", color: "#4b8bbe", status: "açık kaynak",
+      desc: "Görev başlığındaki kelimeleri analiz ederek önceliği kendisi belirleyen ve girilen tarihe göre yapılacakları hatırlatan görev uygulaması. Veriler yerel SQLite veritabanında saklanıyor.",
+      tags: ["Flask", "SQLite", "HTML"], url: "https://github.com/4lnilam/To-Do-List" },
+    { name: "Discord-Bot", year: "2026", lang: "Python", color: "#4b8bbe", status: "açık kaynak",
+      desc: "Sunucu yönetimi için Discord botu: kick/ban moderasyonu, silinen mesajı geri getirme, kullanıcı ve sunucu bilgisi veren slash komutları ve ID listesiyle giriş denetimi.",
+      tags: ["discord.py", "Slash Commands", "Moderasyon"], url: "https://github.com/4lnilam/Discord-Bot" }
+  ],
+  timeline: [
+    { next: true, date: "sıradaki", title: "Yapay Zekâ & Makine Öğrenmesi", place: "hedef", desc: "Python temelimi veri ve model tarafına taşıyorum: makine öğrenmesinin temelleri, veri işleme ve yapay zekâ destekli uygulamalar." },
+    { date: "devam ediyor", title: "Bilgisayar Programcılığı", place: "Ön Lisans Programı", desc: "Programlama temelleri, veritabanları, web geliştirme ve yazılım tasarımı üzerine eğitim alıyorum; derslerde öğrendiklerimi kendi projelerimde uyguluyorum." },
+    { date: "Kasım 2026", title: "Metin Oyuncak Takip", place: "Next.js · TypeScript · Supabase", desc: "İlk kapsamlı full-stack projem: kimlik doğrulama, veritabanı tasarımı ve interaktif harita ile uçtan uca bir takip uygulaması." },
+    { date: "Haziran 2026", title: "İlk açık kaynak projeler", place: "To-Do-List · Discord-Bot", desc: "Flask tabanlı görev uygulamamı ve discord.py ile yazdığım botu GitHub'da yayınladım." },
+    { date: "Kasım 2025", title: "GitHub'a katıldım", place: "github.com/4lnilam", desc: "Kodlarımı sürüm kontrolüyle yönetmeye ve projelerimi paylaşmaya başladım." }
+  ]
+};
+
+/* ===================================================================== */
+const $ = (s, r = document) => r.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+const smooth = (a, b, x) => { const t = clamp((x - a) / (b - a), 0, 1); return t * t * (3 - 2 * t); };
+const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const GH_ICON = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.36-3.88-1.36-.52-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.16 1.18a10.9 10.9 0 0 1 5.76 0c2.19-1.49 3.15-1.18 3.15-1.18.63 1.58.24 2.75.12 3.04.74.81 1.18 1.83 1.18 3.09 0 4.41-2.69 5.38-5.25 5.67.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>';
+
+/* ---------- sözdizimi renklendirici (DOM + canvas ortak) ---------- */
+const TOKEN_RE = /(\/\/.*|#\s.*)|("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*')|\b(class|def|return|import|from|as|for|in|while|if|else|elif|not|and|or|with|lambda|self|None|True|False|const|let|await|async|function|new|SELECT|FROM|GROUP|BY|COUNT)\b|\b(\d+(?:\.\d+)?)\b|([A-Za-z_][\w]*)(?=\()|([A-Za-z_][\w]*)|(\s+)|([^\sA-Za-z_\d]+?)/g;
+function tokenize(line) {
+  const out = []; let m; TOKEN_RE.lastIndex = 0;
+  while ((m = TOKEN_RE.exec(line))) out.push({ t: m[0], c: m[1] ? "c" : m[2] ? "s" : m[3] ? "k" : m[4] ? "n" : m[5] ? "f" : m[6] ? "i" : m[7] ? "w" : "p" });
+  return out;
+}
+
+/* ---------- içerik ---------- */
+$("#status").textContent = PROFILE.status;
+$("#tagline").textContent = PROFILE.tagline;
+$("#year").textContent = new Date().getFullYear();
+$("#gh-btn").href = PROFILE.github;
+const ghMore = $("#gh-more"); ghMore.href = PROFILE.github; ghMore.textContent = PROFILE.github.replace("https://", "") + " üzerindeki tüm depolar →";
+$("#about-text").innerHTML = PROFILE.about.map((p, i) => `<p class="reveal" style="--d:${i * .08}s">${p}</p>`).join("");
+
+$("#skills").innerHTML = PROFILE.skills.map((g, i) => `
+  <div class="card skill reveal" style="--d:${i * .07}s">
+    <h3>${esc(g.key)}</h3>
+    <div class="chips">${g.items.map(x => `<span class="chip">${esc(x)}</span>`).join("")}</div>
+  </div>`).join("") + `
+  <div class="card roadmap reveal" style="--d:.15s">
+    <div><h3><span class="g">${esc(PROFILE.roadmap.title)}</span></h3><p>${esc(PROFILE.roadmap.text)}</p></div>
+    <div class="chips">${PROFILE.roadmap.items.map(x => `<span class="chip">${esc(x)}</span>`).join("")}</div>
+  </div>`;
+
+$("#projects").innerHTML = PROFILE.projects.map((p, i) => {
+  const tag = p.url ? "a" : "div", attrs = p.url ? ` href="${esc(p.url)}" target="_blank" rel="noopener"` : "";
+  return `
+  <${tag} class="card proj reveal" style="--d:${i * .08}s"${attrs}>
+    <div class="meta"><span>0${i + 1} / ${esc(p.year)}</span><span class="badge">${esc(p.status)}</span></div>
+    <h3>${esc(p.name)}</h3>
+    <div class="lang"><i style="background:${esc(p.color)}"></i>${esc(p.lang)}</div>
+    <p>${esc(p.desc)}</p>
+    <div class="tags">${p.tags.map(t => `<span>${esc(t)}</span>`).join("")}</div>
+    <div class="go">${p.url ? "GitHub'da incele <span>→</span>" : `<em>${esc(p.note)}</em>`}</div>
+  </${tag}>`;
+}).join("");
+
+$("#log").innerHTML = PROFILE.timeline.map((e, i) => `
+  <div class="step reveal${e.next ? " next" : ""}" style="--d:${i * .05}s">
+    <div class="when">${e.next ? `<em>${esc(e.date)}</em>` : `<b>${esc(e.date)}</b>`}</div>
+    <h3>${esc(e.title)}</h3>
+    <div class="place">${esc(e.place)}</div>
+    <p>${esc(e.desc)}</p>
+  </div>`).join("");
+
+const mail = $("#mail"); mail.textContent = PROFILE.email; mail.href = "mailto:" + PROFILE.email;
+$("#social").innerHTML = `<a href="${esc(PROFILE.github)}" target="_blank" rel="noopener">${GH_ICON}GitHub<small>${esc(PROFILE.githubHandle)}</small></a>`;
+$("#copy").addEventListener("click", async e => {
+  const b = e.currentTarget;
+  try { await navigator.clipboard.writeText(PROFILE.email); b.textContent = "kopyalandı ✓"; }
+  catch { b.textContent = "kopyalanamadı"; }
+  setTimeout(() => (b.textContent = "kopyala"), 1600);
+});
+$("#ask").addEventListener("submit", e => {
+  e.preventDefault();
+  const body = $("#askin").value.trim();
+  location.href = `mailto:${PROFILE.email}?subject=${encodeURIComponent("Merhaba Enes")}` + (body ? `&body=${encodeURIComponent(body)}` : "");
+});
+document.querySelectorAll(".proj").forEach(c => c.addEventListener("pointermove", e => {
+  const r = c.getBoundingClientRect();
+  c.style.setProperty("--mx", (e.clientX - r.left) + "px");
+  c.style.setProperty("--my", (e.clientY - r.top) + "px");
+}));
+
+/* ---------- görünürlükte belirme ---------- */
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: .15, rootMargin: "0px 0px -6% 0px" });
+document.querySelectorAll("main section:not(#index) .reveal").forEach(el => io.observe(el));
+
+/* ---------- hero: unvanlar, dil modeli gibi parça parça akar ---------- */
+(function streamRoles() {
+  const el = $("#role"), roles = PROFILE.roles;
+  if (REDUCED) { el.textContent = roles[0]; return; }
+  let r = 0, i = 0, del = false;
+  (function step() {
+    const w = roles[r];
+    if (del) i = Math.max(0, i - 3); else i = Math.min(w.length, i + 1 + (Math.random() < .35 ? 2 : 0));
+    el.textContent = w.slice(0, i);
+    let wait = del ? 26 : 55 + Math.random() * 70;
+    if (!del && i === w.length) { del = true; wait = 1900; }
+    else if (del && i === 0) { del = false; r = (r + 1) % roles.length; wait = 380; }
+    setTimeout(step, wait);
+  })();
+})();
+
+/* ---------- hakkımda: kaydırdıkça yazılan kod ---------- */
+const ABOUT_CODE = [
+  "# enes.py",
+  "class Enes(Developer):",
+  `    isim   = "${PROFILE.name}"`,
+  `    bolum  = "${PROFILE.code.bolum}"`,
+  `    diller = [${PROFILE.code.diller.map(f => `"${f}"`).join(", ")}]`,
+  `    hedef  = "${PROFILE.code.hedef}"`,
+  "",
+  "    def ogren(self, konu):",
+  "        while not self.anladi(konu):",
+  "            self.dene()",
+  "            self.gelistir()",
+  "        return self.uygula(konu)",
+  "",
+  "enes = Enes()",
+  'enes.ogren("machine learning")'
+].join("\n");
+const aboutTokens = ABOUT_CODE.split("\n").flatMap((l, i, a) => [...tokenize(l), ...(i < a.length - 1 ? [{ t: "\n", c: "w" }] : [])]);
+const typedEl = $("#typed"); let typedN = -1;
+function renderTyped(n) {
+  if (n === typedN) return; typedN = n;
+  let left = n, html = "";
+  for (const tk of aboutTokens) {
+    if (left <= 0) break;
+    const s = tk.t.slice(0, left); left -= s.length;
+    html += tk.c === "w" ? s : `<span class="t-${tk.c}">${esc(s)}</span>`;
+  }
+  typedEl.innerHTML = html + (n < ABOUT_CODE.length ? '<span class="tc"></span>' : "");
+}
+
+/* =====================================================================
+   ARKA PLAN: akan kod sütunları + kaydırdıkça biçim değiştiren sinir ağı
+   ===================================================================== */
+const CORPUS = `import torch
+import torch.nn as nn
+import numpy as np
+from transformers import AutoTokenizer
+
+class Attention(nn.Module):
+    def __init__(self, dim, heads=8):
+        super().__init__()
+        self.heads = heads
+        self.qkv = nn.Linear(dim, dim * 3)
+
+    def forward(self, x):
+        q, k, v = self.qkv(x).chunk(3, dim=-1)
+        w = (q @ k.transpose(-2, -1)) / k.size(-1) ** 0.5
+        return w.softmax(dim=-1) @ v
+
+model = Transformer(layers=12, dim=768)
+optimizer = torch.optim.AdamW(model.parameters(), lr=0.0003)
+
+for epoch in range(epochs):
+    for x, y in loader:
+        logits = model(x)
+        loss = F.cross_entropy(logits, y)
+        loss.backward()
+        optimizer.step()
+        optimizer.zero_grad()
+    print("epoch", epoch, "loss", loss.item())
+
+def sigmoid(z):
+    return 1 / (1 + np.exp(-z))
+
+# veri -> model -> tahmin
+X_train, X_test = train_test_split(X, test_size=0.2)
+embedding = model.encode("merhaba dünya")
+tokens = tokenizer("Enes Atak", return_tensors="pt")
+
+def predict(text):
+    ids = tokenizer.encode(text)
+    return model.generate(ids, max_new_tokens=64)
+
+weights -= learning_rate * gradient
+accuracy = (preds == labels).float().mean()
+df = pd.read_csv("data.csv").dropna()
+scaler = StandardScaler().fit(X_train)
+response = client.messages.create(model=MODEL, messages=history)
+if loss < best: save(model, "best.pt")
+const res = await fetch("/api/chat", { method: "POST" });
+SELECT label, COUNT(*) FROM dataset GROUP BY label;
+git commit -m "feat: ilk model eğitildi"
+# her epoch biraz daha iyi
+def relu(x): return np.maximum(0, x)
+hidden = relu(inputs @ W1 + b1)
+output = softmax(hidden @ W2 + b2)`.split("\n");
+const CORPUS_TOK = CORPUS.map(tokenize);
+const C_COL = { k: "#b3a6ff", s: "#86ecc9", n: "#ffb86b", f: "#6fd0ff", c: "#59607c", p: "#6c7390", i: "#aab0c8" };
+const MONO = getComputedStyle(document.documentElement).getPropertyValue("--mono");
+
+const cv = $("#bg"), ctx = cv.getContext("2d");
+let W = 0, H = 0, DPR = 1, cols = [], MOBILE = false;
+
+function buildCode() {
+  cols = [];
+  const n = clamp(Math.round(W / 340), 2, 5), colW = W / n;
+  for (let i = 0; i < n; i++) {
+    const depth = .35 + Math.random() * .65, fs = Math.round(10 + depth * 4), lh = Math.round(fs * 1.8);
+    const strip = document.createElement("canvas"), sh = CORPUS.length * lh;
+    strip.width = Math.ceil(colW * DPR); strip.height = Math.ceil(sh * DPR);
+    const s = strip.getContext("2d"); s.scale(DPR, DPR);
+    s.font = `${fs}px ${MONO}`; s.textBaseline = "middle";
+    const cw = s.measureText("M").width, start = Math.floor(Math.random() * CORPUS.length);
+    for (let r = 0; r < CORPUS.length; r++) {
+      let x = 0; const y = r * lh + lh / 2;
+      for (const tk of CORPUS_TOK[(r + start) % CORPUS.length]) {
+        if (tk.c !== "w") { s.fillStyle = C_COL[tk.c]; s.fillText(tk.t, x, y); }
+        x += tk.t.length * cw;
+      }
+    }
+    cols.push({ strip, x: i * colW + 16, w: colW, h: sh, depth, alpha: .05 + depth * .15, speed: 9 + depth * 22, off: Math.random() * sh });
+  }
+}
+
+/* --- sinir ağı: her bölüm için bir biçim --- */
+const GA = 2.399963, TAU = Math.PI * 2;
+const SHAPES = {
+  sphere: n => Array.from({ length: n }, (_, i) => { const y = 1 - 2 * (i + .5) / n, r = Math.sqrt(1 - y * y), a = i * GA; return [r * Math.cos(a), y, r * Math.sin(a)]; }),
+  layers: n => { const L = 6, per = Math.ceil(n / L); return Array.from({ length: n }, (_, i) => { const l = i % L, k = Math.floor(i / L), rr = .66 * Math.sqrt((k + .5) / per), a = k * GA + l; return [(l / (L - 1) * 2 - 1) * .98, rr * Math.cos(a), rr * Math.sin(a)]; }); },
+  torus: n => Array.from({ length: n }, (_, i) => { const u = i * GA, v = i / n * TAU, R = .74, r = .3; return [(R + r * Math.cos(u)) * Math.cos(v), r * Math.sin(u), (R + r * Math.cos(u)) * Math.sin(v)]; }),
+  wave: n => { const s = Math.ceil(Math.sqrt(n)); return Array.from({ length: n }, (_, i) => { const gx = (i % s) / (s - 1) * 2 - 1, gz = Math.floor(i / s) / (s - 1) * 2 - 1; return [gx * 1.08, .24 * Math.sin(gx * 3.2) * Math.cos(gz * 3.2), gz * 1.08]; }); },
+  helix: n => Array.from({ length: n }, (_, i) => { const t = i / (n - 1), a = t * Math.PI * 5, k = i % 4, f = k === 0 ? 1 : k === 1 ? -1 : k === 2 ? .34 : -.34; return [.5 * f * Math.cos(a), (t * 2 - 1) * 1.08, .5 * f * Math.sin(a)]; }),
+  core: n => Array.from({ length: n }, (_, i) => { const y = 1 - 2 * (i + .5) / n, r = Math.sqrt(1 - y * y), a = i * GA, s = i % 3 === 0 ? .45 : .92; return [s * r * Math.cos(a), s * y, s * r * Math.sin(a)]; })
+};
+const ORDER = ["sphere", "layers", "torus", "wave", "helix", "core"];
+let N = 0, forms = [], cur = [], proj = [], phase = [], tint = [], pulses = [], edges = [], deg = null;
+
+function buildNet() {
+  N = MOBILE ? 110 : 190;
+  forms = ORDER.map(k => SHAPES[k](N));
+  cur = forms[0].map(p => p.slice());
+  proj = Array.from({ length: N }, () => [0, 0, 0, 0]);
+  phase = Array.from({ length: N }, () => Math.random() * TAU);
+  tint = Array.from({ length: N }, (_, i) => { const t = i / N; return [Math.round(154 - 68 * t), Math.round(140 + 84 * t), 255]; });
+  deg = new Uint8Array(N); pulses = [];
+}
+
+const sections = [...document.querySelectorAll("main section")];
+let tops = [], docH = 1;
+function measure() { tops = sections.map(s => s.offsetTop); docH = document.documentElement.scrollHeight; }
+
+let px = 0, py = 0, tpx = 0, tpy = 0;
+addEventListener("pointermove", e => { tpx = e.clientX / innerWidth * 2 - 1; tpy = e.clientY / innerHeight * 2 - 1; }, { passive: true });
+
+function drawNet(t, dt, y) {
+  // hangi iki biçimin arasındayız?
+  const c = y + H * .5; let si = 0;
+  for (let i = 0; i < tops.length; i++) if (tops[i] <= c) si = i;
+  const nextTop = si + 1 < tops.length ? tops[si + 1] : docH;
+  const e = si + 1 < forms.length ? smooth(.6, 1, (c - tops[si]) / Math.max(1, nextTop - tops[si])) : 0;
+  const A = forms[si], B = forms[Math.min(si + 1, forms.length - 1)];
+
+  px += (tpx - px) * Math.min(1, dt * 3); py += (tpy - py) * Math.min(1, dt * 3);
+  const ry = t * .13 + y * .0011 + px * .3, rx = .28 + py * .16 + Math.sin(t * .23) * .06;
+  const cy_ = Math.cos(ry), sy_ = Math.sin(ry), cx_ = Math.cos(rx), sx_ = Math.sin(rx);
+  const R = MOBILE ? Math.min(W * .46, H * .26) : Math.min(W * .25, H * .36);
+  const ox = MOBILE ? W * .8 : W * .74, oy = MOBILE ? H * .27 : H * .5;
+  const k = Math.min(1, dt * 3.2), FOV = 3.2;
+
+  for (let i = 0; i < N; i++) {
+    const p = cur[i], a = A[i], b = B[i];
+    p[0] += (a[0] + (b[0] - a[0]) * e - p[0]) * k;
+    p[1] += (a[1] + (b[1] - a[1]) * e - p[1]) * k;
+    p[2] += (a[2] + (b[2] - a[2]) * e - p[2]) * k;
+    const x1 = p[0] * cy_ + p[2] * sy_, z1 = -p[0] * sy_ + p[2] * cy_;
+    const y1 = p[1] * cx_ - z1 * sx_, z2 = p[1] * sx_ + z1 * cx_;
+    const s = FOV / (FOV + z2), q = proj[i];
+    q[0] = ox + x1 * R * s; q[1] = oy + y1 * R * s; q[2] = s; q[3] = clamp(.25 + (1 - z2) * .45, .12, 1);
+  }
+
+  // bağlantılar
+  const THR = MOBILE ? .44 : .34, THR2 = THR * THR, MAXD = 4;
+  deg.fill(0); edges.length = 0;
+  ctx.lineWidth = 1;
+  for (let i = 0; i < N; i++) {
+    if (deg[i] >= MAXD) continue;
+    const p = cur[i];
+    for (let j = i + 1; j < N; j++) {
+      if (deg[j] >= MAXD) continue;
+      const q = cur[j], dx = p[0] - q[0], dy = p[1] - q[1], dz = p[2] - q[2], d2 = dx * dx + dy * dy + dz * dz;
+      if (d2 > THR2) continue;
+      deg[i]++; deg[j]++; edges.push(i, j);
+      const a = proj[i], b = proj[j], c3 = tint[i];
+      ctx.strokeStyle = `rgba(${c3[0]},${c3[1]},${c3[2]},${((1 - d2 / THR2) * .34 * Math.min(a[3], b[3])).toFixed(3)})`;
+      ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke();
+      if (deg[i] >= MAXD) break;
+    }
+  }
+
+  // düğümler
+  for (let i = 0; i < N; i++) {
+    const q = proj[i], c3 = tint[i], act = .5 + .5 * Math.sin(t * 1.6 + phase[i]), r = (1 + act * 1.3) * q[2];
+    ctx.fillStyle = `rgba(${c3[0]},${c3[1]},${c3[2]},${(.1 * q[3]).toFixed(3)})`;
+    ctx.beginPath(); ctx.arc(q[0], q[1], r * 3.4, 0, TAU); ctx.fill();
+    ctx.fillStyle = `rgba(${c3[0] + 50},${c3[1] + 30},255,${(.55 + .45 * act) * q[3]})`;
+    ctx.beginPath(); ctx.arc(q[0], q[1], r, 0, TAU); ctx.fill();
+  }
+
+  // bağlantılar üzerinde ilerleyen sinyaller
+  if (!REDUCED && edges.length && pulses.length < (MOBILE ? 14 : 30) && Math.random() < dt * 22) {
+    const e2 = Math.floor(Math.random() * (edges.length / 2)) * 2, flip = Math.random() < .5;
+    pulses.push({ a: edges[e2 + (flip ? 1 : 0)], b: edges[e2 + (flip ? 0 : 1)], p: 0, v: 1.1 + Math.random() * 1.4 });
+  }
+  for (let i = pulses.length - 1; i >= 0; i--) {
+    const pl = pulses[i]; pl.p += pl.v * dt;
+    if (pl.p >= 1) { pulses.splice(i, 1); continue; }
+    const a = proj[pl.a], b = proj[pl.b], x = a[0] + (b[0] - a[0]) * pl.p, y2 = a[1] + (b[1] - a[1]) * pl.p, al = Math.sin(pl.p * Math.PI) * Math.min(a[3], b[3]);
+    ctx.fillStyle = `rgba(140,230,255,${(al * .25).toFixed(3)})`; ctx.beginPath(); ctx.arc(x, y2, 6, 0, TAU); ctx.fill();
+    ctx.fillStyle = `rgba(235,250,255,${al.toFixed(3)})`; ctx.beginPath(); ctx.arc(x, y2, 1.7, 0, TAU); ctx.fill();
+  }
+}
+
+function draw(t, dt, vel, y) {
+  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  ctx.clearRect(0, 0, W, H);
+  ctx.globalCompositeOperation = "source-over";
+  for (const c of cols) {
+    c.off += (c.speed + vel * c.depth * .5) * dt;
+    const o = ((c.off % c.h) + c.h) % c.h;
+    ctx.globalAlpha = c.alpha;
+    for (let yy = -o; yy < H; yy += c.h) ctx.drawImage(c.strip, c.x, yy, c.w, c.h);
+  }
+  ctx.globalAlpha = 1;
+  ctx.globalCompositeOperation = "lighter";
+  drawNet(t, dt, y);
+}
+
+/* ---------- kaydırmaya bağlı arayüz ---------- */
+const navLinks = [...document.querySelectorAll(".links a")], linksEl = $(".links");
+const progress = $("#progress"), pbar = $("#pbar"), elEp = $("#ep"), elSec = $("#sec"), elLoss = $("#loss"), elAcc = $("#acc"), logEl = $("#log"), aboutSec = $("#hakkimda"), aurora = $(".aurora");
+let lastY = scrollY, vel = 0, lastT = performance.now(), activeId = "", dirty = true, T = 0;
+
+function onScroll(y) {
+  const p = clamp(y / Math.max(1, docH - H), 0, 1);
+  progress.style.transform = pbar.style.transform = `scaleX(${p})`;
+  aurora.style.setProperty("--sp", p.toFixed(4));
+  elLoss.textContent = (2.282 * Math.exp(-4.2 * p) + .021).toFixed(3);
+  elAcc.textContent = (98.6 * (1 - Math.exp(-4.4 * p)) / (1 - Math.exp(-4.4))).toFixed(1) + "%";
+
+  let cur_ = sections[0], idx = 0;
+  sections.forEach((s, i) => { if (s.getBoundingClientRect().top <= H * .42) { cur_ = s; idx = i; } });
+  if (cur_.id !== activeId) {
+    activeId = cur_.id;
+    navLinks.forEach(a => {
+      const on = a.getAttribute("href") === "#" + activeId; a.classList.toggle("active", on);
+      if (on && linksEl.scrollWidth > linksEl.clientWidth) linksEl.scrollTo({ left: a.offsetLeft - (linksEl.clientWidth - a.offsetWidth) / 2, behavior: REDUCED ? "auto" : "smooth" });
+    });
+    if (activeId === "index" && linksEl.scrollLeft) linksEl.scrollTo({ left: 0, behavior: REDUCED ? "auto" : "smooth" });
+    elEp.textContent = idx + 1; elSec.textContent = cur_.dataset.name;
+  }
+
+  const ar = aboutSec.getBoundingClientRect();
+  renderTyped(Math.round((REDUCED ? 1 : clamp((H * .88 - ar.top) / (H * .72), 0, 1)) * ABOUT_CODE.length));
+  const lr = logEl.getBoundingClientRect();
+  logEl.style.setProperty("--p", REDUCED ? 1 : clamp((H * .7 - lr.top) / lr.height, 0, 1));
+  cv.style.opacity = ((MOBILE ? .85 : 1) - (MOBILE ? .4 : .42) * clamp(y / (H * .9), 0, 1)).toFixed(3);
+}
+
+function frame(now) {
+  requestAnimationFrame(frame);
+  if (!W) return;
+  const dt = Math.min(.05, (now - lastT) / 1000); lastT = now; T += dt;
+  const y = scrollY, inst = dt > 0 ? (y - lastY) / dt : 0;
+  vel += (inst - vel) * Math.min(1, dt * 9);
+  if (y !== lastY || dirty) { onScroll(y); dirty = false; }
+  lastY = y;
+  if (!document.hidden) draw(T, dt, vel, y);
+}
+
+function init() {
+  W = innerWidth; H = innerHeight;
+  if (W < 2 || H < 2) { W = 0; return; }
+  MOBILE = W < 820;
+  DPR = Math.min(devicePixelRatio || 1, 2);
+  cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR);
+  buildCode(); buildNet(); measure(); dirty = true;
+  if (REDUCED) { onScroll(scrollY); draw(0, 1, 0, scrollY); }
+}
+let rz; addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(init, 150); });
+addEventListener("load", () => { measure(); dirty = true; });
+init();
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(init);
+if (REDUCED) addEventListener("scroll", () => { onScroll(scrollY); draw(0, 1, 0, scrollY); }, { passive: true });
+else requestAnimationFrame(frame);
+</script>
+</body>
+</html>
